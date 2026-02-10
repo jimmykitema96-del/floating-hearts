@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Faith Mwende ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at top, #7a0019, #3b000d);
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .container { padding: 70px 20px; }
+
+    .name-3d {
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ffd6dc;
+      text-shadow:
+        0 1px 0 #c70039, 0 2px 0 #b00032, 0 3px 0 #98002b,
+        0 4px 0 #800024, 0 10px 20px rgba(0,0,0,0.6);
+      animation: float3d 3s ease-in-out infinite;
+    }
+
+    @keyframes float3d { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+    p {
+      font-size: 1.2rem;
+      max-width: 720px;
+      margin: 25px auto;
+      line-height: 1.7;
+      color: #ffe6ea;
+    }
+
+    .heart { position: fixed; top: -10px; font-size: 26px; animation: fall linear infinite; pointer-events: none; }
+    @keyframes fall { to { transform: translateY(110vh); } }
+
+    .teddy { font-size: 90px; margin: 35px 0; animation: bounce 2.2s infinite; }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
+
+    .proposal-box {
+      background: linear-gradient(145deg, rgba(122,0,25,0.9), rgba(59,0,13,0.95));
+      border-radius: 25px;
+      padding: 45px 25px;
+      margin-top: 50px;
+      box-shadow: inset 0 0 30px rgba(255,255,255,0.08), 0 15px 35px rgba(0,0,0,0.6);
+    }
+
+    .buttons { margin-top: 30px; position: relative; height: 100px; display: flex; justify-content: center; align-items: center; }
+
+    .yes-btn, .no-btn {
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      border-radius: 35px;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      transition: all 0.2s ease;
+    }
+
+    .yes-btn { background: #ffe6ea; color: #7a0019; transform: translateX(-80px); z-index: 100; }
+    .no-btn { background: #c70039; color: white; transform: translateX(80px); }
+
+    #player { display: none; } /* Keeps the YouTube player hidden */
+
+    footer { margin-top: 70px; font-size: 0.9rem; opacity: 0.8; }
+  </style>
+</head>
+<body>
+
+<div id="player"></div>
+
+<div class="container">
+  <div class="name-3d">Faith Mwende ❤️</div>
+
+  <div class="teddy">🧸🧸🧸</div>
+
+  <p>
+    From the moment you came into my life, everything started feeling warmer,
+    deeper, and more meaningful. You’re the smile my heart keeps choosing.
+  </p>
+
+  <div class="proposal-box" id="proposalBox">
+    <h2>Will you be my Valentine? 💖</h2>
+
+    <div class="buttons">
+      <form action="https://formspree.io/f/xojnjvnw" method="POST" id="valentineForm">
+        <input type="hidden" name="Response" value="YES 💍❤️">
+        <button type="submit" class="yes-btn">YES ❤️</button>
+      </form>
+      <button class="no-btn" id="noBtn">NO 💔</button>
+    </div>
+  </div>
+
+  <footer>
+    Made with love 💕<br>
+    © 2026 Jimmy – All Rights Reserved
+  </footer>
+</div>
+
+<script>
+  // 1. YouTube Player Setup
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '0',
+      width: '0',
+      videoId: 'fRDGP5wHo-c',
+      playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1 },
+      events: { 'onReady': onPlayerReady }
+    });
+  }
+
+  function onPlayerReady(event) {}
+
+  // 2. Falling Hearts
+  const hearts = ['❤️','💖','💘','💕'];
+  function createHeart() {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.innerText = hearts[Math.floor(Math.random()*hearts.length)];
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.animationDuration = (3+Math.random()*5)+'s';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(), 8000);
+  }
+  setInterval(createHeart, 300);
+
+  // 3. Handling the "YES" Click
+  const form = document.getElementById('valentineForm');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (player && player.playVideo) { player.playVideo(); }
+
+    confetti({
+      particleCount: 200,
+      spread: 100,
+      origin: { y: 0.6 }
+    });
+
+    fetch(e.target.action, {
+      method: 'POST',
+      body: new FormData(e.target),
+      headers: {'Accept': 'application/json'}
+    });
+
+    document.getElementById('proposalBox').innerHTML = `
+      <h2 style="font-size: 2.5rem;">💍❤️ You just made my heart the happiest! ❤️💍</h2>
+      <p style="font-size: 1.5rem;">See you on Valentine's Day, Faith!</p>
+    `;
+  });
+
+  // 4. The "No" Button Escape Logic
+  const noBtn = document.getElementById('noBtn');
+  noBtn.addEventListener('mouseover', () => {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+  });
+</script>
+
+</body>
+</html>
